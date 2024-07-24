@@ -2,6 +2,7 @@
 using MagicVilla_API.Data;
 using MagicVilla_API.Models;
 using MagicVilla_API.Models.Dto;
+using MagicVilla_API.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -15,12 +16,12 @@ namespace MagicVilla_API.Controllers
     public class VillaController : ControllerBase
     {   
         private readonly ILogger<VillaController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly IVillaRepository _villaRepo;
         private readonly IMapper _mapper;
-        public VillaController(ILogger<VillaController> logger, ApplicationDbContext db, IMapper mapper)
+        public VillaController(ILogger<VillaController> logger, IVillaRepository villaRepo, IMapper mapper)
         {
             _logger = logger;
-            _db = db;
+            _villaRepo = villaRepo;
             _mapper = mapper;
         }
 
@@ -33,7 +34,7 @@ namespace MagicVilla_API.Controllers
             //_logger.LogInformation("Obteniendo villas");
             //_logger.LogError("error mostrar");
 
-            IEnumerable<Villa> villaList = await _db.Villas.ToListAsync();
+            IEnumerable<Villa> villaList = await _villaRepo.GetAll();
             return Ok(_mapper.Map<IEnumerable<VillaDto>>(villaList)); 
         }
 
@@ -49,7 +50,7 @@ namespace MagicVilla_API.Controllers
             }
 
             //var villa = VillaStore.VillaList.FirstOrDefault(v => v.Id == id);
-            var villa = await _db.Villas.FirstOrDefaultAsync(v => v.Id == id); //traer un registro
+            var villa = await _villaRepo.GetOne(v => v.Id == id); //le enviamos el filtro por id
 
             if (villa == null)
             {
@@ -73,7 +74,7 @@ namespace MagicVilla_API.Controllers
             }
 
             //validar que no se repitan nombres de villas
-            if (await _db.Villas.FirstOrDefaultAsync(v => v.Nombre.ToLower() == createDto.Nombre.ToLower()) != null)
+            if (await _villaRepo.GetOne(v => v.Nombre.ToLower() == createDto.Nombre.ToLower()) != null)
             {
                 ModelState.AddModelError("Iguales", "El nombre de la villa ya existe"); //Nombre del error, mensaje a mostrar
                 return BadRequest(ModelState);
@@ -85,23 +86,9 @@ namespace MagicVilla_API.Controllers
             }
 
             Villa modelo = _mapper.Map<Villa>(createDto);
-            
-            //Lo reemplaza el mapper
-            /*
-            Villa modelo = new()
-            {
-                Nombre = createDto.Nombre,
-                Detalle = createDto.Detalle,
-                ImagenUrl = createDto.ImagenUrl,
-                Ocupantes = createDto.Ocupantes,
-                Tarifa = createDto.Tarifa,
-                MetrosCuadrados = createDto.MetrosCuadrados,
-                Amenidad = createDto.Amenidad
-            };*/
 
             //agregar el registo a bd
-            await _db.Villas.AddAsync(modelo); //INSERT
-            await _db.SaveChangesAsync(); //guardar bd
+            await _villaRepo.Create(modelo); //INSERT
 
             return CreatedAtRoute("GetVilla", new { id = modelo.Id }, modelo); //el modelo es el que guardamos contiene ya el id
         }
@@ -116,15 +103,15 @@ namespace MagicVilla_API.Controllers
                 return BadRequest(); //400
             }
             //ver si el id encuentra algo en la lista
-            var villa = await _db.Villas.FirstOrDefaultAsync(v => v.Id == id);
+            var villa = await _villaRepo.GetOne(v => v.Id == id);
 
             if (villa == null)
             {
                 return NotFound(); //404
             }
 
-            _db.Villas.Remove(villa); //remove no es async
-            await _db.SaveChangesAsync(); //guardar bd
+            _villaRepo.Delete(villa);
+
             return NoContent(); //204
         }
 
@@ -141,8 +128,7 @@ namespace MagicVilla_API.Controllers
             Villa modelo = _mapper.Map<Villa>(updateDto);
             
 
-            _db.Villas.Update(modelo); //update
-            await _db.SaveChangesAsync(); //guardar bd
+            _villaRepo.Update(modelo); //update
 
             return NoContent();
         }
@@ -157,23 +143,11 @@ namespace MagicVilla_API.Controllers
                 return BadRequest(); //400
             }
 
-            var villa = await _db.Villas.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id); //registro actual que se va a modificar
+            var villa = await _villaRepo.GetOne(v => v.Id == id, tracked:false); //tracked false
 
             VillaUpdateDto villaDto = _mapper.Map<VillaUpdateDto>(villa);
             
-            /* //reemplazado por mapper
-            VillaUpdateDto villaDto = new() //el modelo lo llenamos con la info del actual
-            {
-                Id = villa.Id,
-                Nombre = villa.Nombre,
-                Detalle = villa.Detalle,
-                ImagenUrl = villa.ImagenUrl,
-                Ocupantes = villa.Ocupantes,
-                Tarifa = villa.Tarifa,
-                MetrosCuadrados = villa.MetrosCuadrados,
-                Amenidad = villa.Amenidad
-            };*/
-
+        
             if (villa == null) return BadRequest();
 
             patchDto.ApplyTo(villaDto, ModelState);
@@ -185,21 +159,7 @@ namespace MagicVilla_API.Controllers
 
             Villa modelo = _mapper.Map<Villa>(villaDto);
 
-            /* //reemplazado por el mapper
-            Villa modelo = new() //luego de pasar el patch que contiene lo unico que se va a modificar
-            {
-                Id = villaDto.Id,
-                Nombre = villaDto.Nombre,
-                Detalle = villaDto.Detalle,
-                ImagenUrl = villaDto.ImagenUrl,
-                Ocupantes = villaDto.Ocupantes,
-                Tarifa = villaDto.Tarifa,
-                MetrosCuadrados = villaDto.MetrosCuadrados,
-                Amenidad = villaDto.Amenidad
-            };*/
-
-            _db.Villas.Update(modelo);
-            await _db.SaveChangesAsync();
+            _villaRepo.Update(modelo);
             return NoContent();
         }
 
