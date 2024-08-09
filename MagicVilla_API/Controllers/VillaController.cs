@@ -50,9 +50,9 @@ namespace MagicVilla_API.Controllers
             
             return _apiResponse; 
         }
-
+        
         //getOne
-        [HttpGet("id", Name = "GetVilla")] //"id:int"
+        [HttpGet("{id:int}", Name = "GetVilla")] //"id:int" 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -141,7 +141,7 @@ namespace MagicVilla_API.Controllers
         //Delete
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpDelete("id:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteVilla(int id) //aqui no se puede poner APIResponse, interface no puede llevar un tipo
         {
 
@@ -180,7 +180,7 @@ namespace MagicVilla_API.Controllers
         //put
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpPut("id:int")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto updateDto) //recibe todo el objeto
         {
 
@@ -213,7 +213,7 @@ namespace MagicVilla_API.Controllers
         //patch
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpPatch("id:int")]
+        [HttpPatch("{id:int}")]
         public async Task< IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDto> patchDto)
         {
             try 

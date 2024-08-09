@@ -5,10 +5,10 @@ namespace MagicVilla_Web.Models.Dto
     public class VillaDto
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Requerido")]
         public string? Nombre { get; set; }
         public string? Detalle { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Requerido")]
         public double? Tarifa { get; set; }
         public int Ocupantes { get; set; }
         public int MetrosCuadrados { get; set; }

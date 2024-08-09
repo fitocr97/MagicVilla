@@ -32,8 +32,8 @@ namespace MagicVilla_Web.Services
 
                 if (apiRequest.Datos != null) //si es diferente de null se refiera post o put envian datos
                 {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Datos),
-                        Encoding.UTF8, "application/json");  //solo par estos casos se configura el content
+                        message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Datos),
+                        Encoding.UTF8, "application/json");  //solo para estos casos se configura el content
                 }
 
                 switch (apiRequest.APITipo)
@@ -55,7 +55,9 @@ namespace MagicVilla_Web.Services
                 HttpResponseMessage apiResponse = null;
                 apiResponse = await client.SendAsync(message); //contiene todo
                 var apiContent = await apiResponse.Content.ReadAsStringAsync(); //reciva el contenido de la respuesta
-                var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);//converson del contenido
+                Console.WriteLine(apiContent);
+                var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);//conversion del contenido
+                Console.WriteLine(APIResponse);
 
                 return APIResponse;
             
