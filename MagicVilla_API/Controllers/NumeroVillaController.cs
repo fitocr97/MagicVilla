@@ -39,7 +39,7 @@ namespace MagicVilla_API.Controllers
         {
             try 
             {
-                IEnumerable<NumeroVilla> numeroVillaList = await _numeroRepo.GetAll();
+                IEnumerable<NumeroVilla> numeroVillaList = await _numeroRepo.GetAll(incluirPropiedades:"Villa");
 
                 _apiResponse.Result = _mapper.Map<IEnumerable<NumeroVillaDto>>(numeroVillaList); //agrega datos al response
                 _apiResponse.statusCode = HttpStatusCode.OK; //using System.Net;
@@ -54,7 +54,7 @@ namespace MagicVilla_API.Controllers
         }
 
         //getOne
-        [HttpGet("id", Name = "GetNumeroVilla")] //"id:int"
+        [HttpGet("{id:int}", Name = "GetNumeroVilla")] //"id:int"
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -69,7 +69,7 @@ namespace MagicVilla_API.Controllers
                     return BadRequest(_apiResponse);
                 }
 
-                var numeroVilla = await _numeroRepo.GetOne(v => v.VillaNo == id); //le enviamos el filtro por id en este caso VillaNo era el id
+                var numeroVilla = await _numeroRepo.GetOne(v => v.VillaNo == id, incluirPropiedades: "Villa"); //le enviamos el filtro por id en este caso VillaNo era el id
 
                 if (numeroVilla == null)
                 {
@@ -151,7 +151,7 @@ namespace MagicVilla_API.Controllers
         //Delete
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpDelete("id:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteNumeroVilla(int id) //aqui no se puede poner APIResponse, interface no puede llevar un tipo
         {
 
@@ -191,7 +191,7 @@ namespace MagicVilla_API.Controllers
         //put
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpPut("id:int")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateNumeroVilla(int id, [FromBody] NumeroVillaUpdateDto updateDto) //recibe todo el objeto
         {
 

@@ -31,7 +31,7 @@ namespace MagicVilla_API.Repository
         }
 
         //recive un filtro y retorna un registro
-        public async Task<T> GetOne(Expression<Func<T, bool>> filtro = null, bool tracked = true)
+        public async Task<T> GetOne(Expression<Func<T, bool>> filtro = null, bool tracked = true, string? incluirPropiedades = null)
         {
             IQueryable<T> query = dbSet;
             if (!tracked) 
@@ -43,34 +43,37 @@ namespace MagicVilla_API.Repository
                 query = query.Where(filtro); //where siempre trabaja con expresion linq
             }
 
-            /*if (incluirPropiedades != null)  // "Villa,OtroModelo"
+            //verifica si pide datos de otro modelo
+            if (incluirPropiedades != null)  // "Villa,OtroModelo" 
             {
                 foreach (var incluirProp in incluirPropiedades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(incluirProp);
                 }
-            }*/
+            }
 
             return await query.FirstOrDefaultAsync();
         }
 
 
         //retorna una lista
-        public async Task<List<T>> GetAll(Expression<Func<T, bool>>? filtro = null)
+        public async Task<List<T>> GetAll(Expression<Func<T, bool>>? filtro = null, string? incluirPropiedades = null)
         {
             IQueryable<T> query = dbSet;
             if (filtro != null)
             {
                 query = query.Where(filtro);
             }
-            /*
+
+            //verifica si pide datos de otro modelo
             if (incluirPropiedades != null)  // "Villa,OtroModelo"
             {
                 foreach (var incluirProp in incluirPropiedades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(incluirProp);
                 }
-            }*/
+            }
+
             return await query.ToListAsync(); //ya sea filtrada o con todos los registros
         }
 
