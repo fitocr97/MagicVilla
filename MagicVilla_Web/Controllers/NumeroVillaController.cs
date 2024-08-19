@@ -55,7 +55,42 @@ namespace MagicVilla_Web.Controllers
             return View(numeroVillaM); //retrun de todo el viewModel
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateNumeroVilla(NumeroVillaViewModel modelo)
+        {
+            //validar si el modelo es valido
+            if (ModelState.IsValid)
+            {
+                var response = await _numeroVillaService.Create<APIResponse>(modelo.NumeroVilla); //hace referencia a createDto
+                if (response != null && response.IsSuccessful)
+                {
+                    //TempData["exitoso"] = "Numero Villa Creada Exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    if (response.ErrorMessages.Count > 0) //si es mayor a 0 esa lista tiene mensajes de errores
+                    {
+                        ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                    }
+                }
+            }
 
+            //volver a cargar la lista de villas en el dropdown, en caso de que algo falle
+            var res = await _villaService.GetAll<APIResponse>();
+            if (res != null && res.IsSuccessful)
+            {
+                modelo.VillaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(res.Result))
+                                          .Select(v => new SelectListItem
+                                          {
+                                              Text = v.Nombre,
+                                              Value = v.Id.ToString()
+                                          });
+            }
+
+            return View(modelo);
+        }
 
     }
 }

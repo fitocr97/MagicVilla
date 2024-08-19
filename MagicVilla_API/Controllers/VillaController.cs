@@ -109,7 +109,7 @@ namespace MagicVilla_API.Controllers
                 //validar que no se repitan nombres de villas
                 if (await _villaRepo.GetOne(v => v.Nombre.ToLower() == createDto.Nombre.ToLower()) != null)
                 {
-                    ModelState.AddModelError("Iguales", "El nombre de la villa ya existe"); //Nombre del error, mensaje a mostrar
+                    ModelState.AddModelError("ErrorMessages", "El nombre de la villa ya existe"); //Nombre del error, mensaje a mostrar
                     return BadRequest(ModelState);
                 }
 

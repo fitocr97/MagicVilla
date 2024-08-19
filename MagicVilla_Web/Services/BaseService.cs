@@ -2,6 +2,7 @@
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Services.IServices;
 using Newtonsoft.Json;
+using System.Net;
 using System.Text;
 
 namespace MagicVilla_Web.Services
@@ -51,13 +52,33 @@ namespace MagicVilla_Web.Services
                         message.Method = HttpMethod.Get;
                         break;
                 }
+
                 //confiuguramos el response
                 HttpResponseMessage apiResponse = null;
                 apiResponse = await client.SendAsync(message); //contiene todo
                 var apiContent = await apiResponse.Content.ReadAsStringAsync(); //reciva el contenido de la respuesta
-                Console.WriteLine(apiContent);
+
+                try
+                {
+                    //Si da error llenamos el response
+                    APIResponse response = JsonConvert.DeserializeObject<APIResponse>(apiContent); //api content es lo que devuelve el api
+                    if (response != null && (apiResponse.StatusCode == HttpStatusCode.BadRequest
+                                        || apiResponse.StatusCode == HttpStatusCode.NotFound))
+                    {
+                        response.statusCode = HttpStatusCode.BadRequest;
+                        response.IsSuccessful = false;
+                        var res = JsonConvert.SerializeObject(response);
+                        var obj = JsonConvert.DeserializeObject<T>(res);
+                        return obj;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var errorResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                    return errorResponse;
+                }
+
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);//conversion del contenido
-                Console.WriteLine(APIResponse);
 
                 return APIResponse;
             
@@ -70,8 +91,8 @@ namespace MagicVilla_Web.Services
                     IsSuccessful = false
                 };
                 var res = JsonConvert.SerializeObject(dto);
-                var APIResponse = JsonConvert.DeserializeObject<T>(res);
-                return APIResponse;
+                var responseEX = JsonConvert.DeserializeObject<T>(res);
+                return responseEX;
             }
            
         }

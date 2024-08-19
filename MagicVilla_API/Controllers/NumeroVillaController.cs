@@ -111,7 +111,7 @@ namespace MagicVilla_API.Controllers
                 //validar que no se repitan el mismo numero de villa 
                 if (await _numeroRepo.GetOne(v => v.VillaNo == createDto.VillaNo) != null)
                 {
-                    ModelState.AddModelError("NoVilla Iguales", "El numero ya existe"); //Nombre del error, mensaje a mostrar
+                    ModelState.AddModelError("ErrorMessages", "El numero ya existe"); //Nombre del error, mensaje a mostrar
                     return BadRequest(ModelState);
                 }
 
@@ -208,7 +208,7 @@ namespace MagicVilla_API.Controllers
                 //validar si existe o no el id Villa (padre)
                 if (await _villaRepo.GetOne(v => v.Id == updateDto.VillaId) == null)
                 {
-                    ModelState.AddModelError("Villa ID foreanea", "No existe la clave foranea id de la villa");
+                    ModelState.AddModelError("ErrorMessages", "No existe la clave foranea id de la villa");
                     return BadRequest(ModelState);
                 }
 
