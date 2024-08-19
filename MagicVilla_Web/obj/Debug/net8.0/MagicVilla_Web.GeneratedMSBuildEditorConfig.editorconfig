@@ -38,12 +38,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtZXJvVmlsbGFcQ3JlYXRlTnVtZXJvVmlsbGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/NumeroVilla/DeleteNumeroVilla.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtZXJvVmlsbGFcRGVsZXRlTnVtZXJvVmlsbGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/NumeroVilla/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtZXJvVmlsbGFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/NumeroVilla/UpdateNumeroVilla.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtZXJvVmlsbGFcVXBkYXRlTnVtZXJvVmlsbGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/Shared/_Notification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rodolfo Mora/Documents/Cursos/Dotnet/MagicVilla/MagicVilla_Web/Views/Shared/_ValidationScriptsPartial.cshtml]

@@ -39,16 +39,16 @@ namespace MagicVilla_Web.Controllers
         public async Task<IActionResult> CreateNumeroVilla()
         {
             NumeroVillaViewModel numeroVillaM = new();
-            
+
             var response = await _villaService.GetAll<APIResponse>();
 
-            if(response != null && response.IsSuccessful)
+            if (response != null && response.IsSuccessful)
             {
                 numeroVillaM.VillaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(response.Result))
                     .Select(v => new SelectListItem
                     {
                         Text = v.Nombre,
-                        Value=v.Id.ToString()
+                        Value = v.Id.ToString()
                     });
             }
 
@@ -65,7 +65,7 @@ namespace MagicVilla_Web.Controllers
                 var response = await _numeroVillaService.Create<APIResponse>(modelo.NumeroVilla); //hace referencia a createDto
                 if (response != null && response.IsSuccessful)
                 {
-                    //TempData["exitoso"] = "Numero Villa Creada Exitosamente";
+                    TempData["exitoso"] = "Numero Villa Creada Exitosamente";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -89,6 +89,115 @@ namespace MagicVilla_Web.Controllers
                                           });
             }
 
+            return View(modelo);
+        }
+
+
+        public async Task<IActionResult> UpdateNumeroVilla(int villaNo) //id numero villa
+        {
+            NumeroVillaUpdateViewModel numeroVillaVM = new(); //inicalizamos el viewmodel "instanciado"
+
+            //traemos el numero de villa que vamos a actualizar
+            var response = await _numeroVillaService.GetOne<APIResponse>(villaNo);
+
+            if (response != null && response.IsSuccessful)
+            {
+                NumeroVillaDto modelo = JsonConvert.DeserializeObject<NumeroVillaDto>(Convert.ToString(response.Result)); //datos
+                numeroVillaVM.NumeroVilla = _mapper.Map<NumeroVillaUpdateDto>(modelo); //mapea a update
+            }
+
+            //traer villas actualizar el dropdown
+            response = await _villaService.GetAll<APIResponse>();
+
+            if (response != null && response.IsSuccessful)
+            {
+                numeroVillaVM.VillaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(response.Result))
+                                          .Select(v => new SelectListItem
+                                          {
+                                              Text = v.Nombre,
+                                              Value = v.Id.ToString()
+                                          });
+                return View(numeroVillaVM);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateNumeroVilla(NumeroVillaUpdateViewModel modelo)
+        {
+            //valida al modelo
+            if (ModelState.IsValid)
+            {
+                var response = await _numeroVillaService.Update<APIResponse>(modelo.NumeroVilla); //llama al servicio
+                if (response != null && response.IsSuccessful)
+                {
+                    TempData["exitoso"] = "Numero Villa Actualizada Exitosamente";
+                    return RedirectToAction(nameof(Index)); //envia los datos
+                }
+                else
+                {
+                    if (response.ErrorMessages.Count > 0)
+                    {
+                        ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                    }
+                }
+            }
+
+            //vuelve a llenear lista de villas si no es valido
+            var res = await _villaService.GetAll<APIResponse>();
+            if (res != null && res.IsSuccessful)
+            {
+                modelo.VillaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(res.Result))
+                                          .Select(v => new SelectListItem
+                                          {
+                                              Text = v.Nombre,
+                                              Value = v.Id.ToString()
+                                          });
+            }
+
+            return View(modelo);
+        }
+
+        //similar al update
+        public async Task<IActionResult> DeleteNumeroVilla(int villaNo)
+        {
+            NumeroVillaDeleteViewModel numeroVillaVM = new();
+
+
+            var response = await _numeroVillaService.GetOne<APIResponse>(villaNo);
+            if (response != null && response.IsSuccessful)
+            {
+                NumeroVillaDto modelo = JsonConvert.DeserializeObject<NumeroVillaDto>(Convert.ToString(response.Result));
+                numeroVillaVM.NumeroVilla = modelo;
+            }
+            response = await _villaService.GetAll<APIResponse>();
+            if (response != null && response.IsSuccessful)
+            {
+                numeroVillaVM.VillaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(response.Result))
+                                          .Select(v => new SelectListItem
+                                          {
+                                              Text = v.Nombre,
+                                              Value = v.Id.ToString()
+                                          });
+                return View(numeroVillaVM);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteNumeroVilla(NumeroVillaDeleteViewModel modelo)
+        {
+            var response = await _numeroVillaService.Delete<APIResponse>(modelo.NumeroVilla.VillaNo); //id a remover
+            if (response != null && response.IsSuccessful)
+            {
+                TempData["exitoso"] = "Numero Villa Eliminado Exitosamente";
+                return RedirectToAction(nameof(Index));
+            }
+            TempData["error"] = "Un Error Ocurrio al Remover";
             return View(modelo);
         }
 
