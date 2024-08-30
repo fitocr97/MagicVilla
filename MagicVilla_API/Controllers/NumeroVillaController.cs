@@ -4,6 +4,7 @@ using MagicVilla_API.Data;
 using MagicVilla_API.Models;
 using MagicVilla_API.Models.Dto;
 using MagicVilla_API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -34,6 +35,7 @@ namespace MagicVilla_API.Controllers
 
         //getall
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetNumeroVillas() //RETORNA TIPO APIRESPONSE
         {
@@ -55,6 +57,7 @@ namespace MagicVilla_API.Controllers
 
         //getOne
         [HttpGet("{id:int}", Name = "GetNumeroVilla")] //"id:int"
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,6 +97,7 @@ namespace MagicVilla_API.Controllers
 
         //create
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -149,9 +153,10 @@ namespace MagicVilla_API.Controllers
         }
 
         //Delete
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteNumeroVilla(int id) //aqui no se puede poner APIResponse, interface no puede llevar un tipo
         {
 
@@ -189,9 +194,10 @@ namespace MagicVilla_API.Controllers
         }
 
         //put
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateNumeroVilla(int id, [FromBody] NumeroVillaUpdateDto updateDto) //recibe todo el objeto
         {
 
