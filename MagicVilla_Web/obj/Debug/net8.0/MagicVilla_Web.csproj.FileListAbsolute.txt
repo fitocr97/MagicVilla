@@ -228,3 +228,8 @@ C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debu
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_Web\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

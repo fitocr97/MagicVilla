@@ -1,6 +1,6 @@
 ﻿namespace MagicVilla_Utility
 {
-    //Definiciones estatidas esta clase manejará todas las definiciones estaticas
+    //Definiciones estaticas esta clase manejará todas las definiciones estaticas
     public static class DS 
     {
 
@@ -11,6 +11,6 @@
             PUT,
             DELETE
         }
-
+        public static string SessionToken = "JWToken";
     }
 }
