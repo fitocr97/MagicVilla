@@ -3,6 +3,7 @@ using MagicVilla_API.Data;
 using MagicVilla_API.Repository;
 using MagicVilla_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -89,6 +90,19 @@ builder.Services.AddScoped<INumeroVillaRepository, NumeroVillaRepository>(); //i
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
+builder.Services.AddApiVersioning(options => //indicar que version estamos usando
+{
+    options.AssumeDefaultVersionWhenUnspecified = true; //version por defoult
+    options.DefaultApiVersion = new ApiVersion(1, 0); //definimos el defoult
+    options.ReportApiVersions = true;
+});
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+
 
 var app = builder.Build();
 
@@ -96,6 +110,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
+
+    });
     app.UseSwaggerUI();
 }
 

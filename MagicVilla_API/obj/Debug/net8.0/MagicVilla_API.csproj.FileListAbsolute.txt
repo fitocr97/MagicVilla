@@ -283,3 +283,5 @@ C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\obj\Debu
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Versioning.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll

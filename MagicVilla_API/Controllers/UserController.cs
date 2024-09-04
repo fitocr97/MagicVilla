@@ -7,14 +7,15 @@ using System.Net;
 
 namespace MagicVilla_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersionNeutral]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
         private APIResponse _response;
 
-        public UserController(IUserRepository userRepo )
+        public UserController(IUserRepository userRepo)
         {
             _userRepo = userRepo;
             _response = new();
