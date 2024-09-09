@@ -3,6 +3,7 @@ using Azure;
 using MagicVilla_API.Data;
 using MagicVilla_API.Models;
 using MagicVilla_API.Models.Dto;
+using MagicVilla_API.Models.Especificaciones;
 using MagicVilla_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //getall
         [HttpGet]
+        [ResponseCache(Duration = 30)]
         [Authorize]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetVillas() //RETORNA TIPO APIRESPONSE antes ienumerable
@@ -53,6 +55,30 @@ namespace MagicVilla_API.Controllers.v1
 
             return _apiResponse;
         }
+
+        //se quito el authorice
+        [HttpGet("VillasPaginado")]// diferencia con el otro httpget
+        //[ResponseCache(Duration = 30)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<APIResponse> GetVillasPaginado([FromQuery] Parametros parametros)
+        {
+            try
+            {
+                var villaList = _villaRepo.GetAllPaginado(parametros); //parametros vienen del front
+                _apiResponse.Result = _mapper.Map<IEnumerable<VillaDto>>(villaList);
+                _apiResponse.statusCode = HttpStatusCode.OK;
+                _apiResponse.TotalPaginas = villaList.MetaData.TotalPages;
+
+                return Ok(_apiResponse);
+            }
+            catch (Exception ex)
+            {
+                _apiResponse.IsSuccessful = false;
+                _apiResponse.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _apiResponse;
+        }
+
 
         //getOne
         [HttpGet("{id:int}", Name = "GetVilla")] //"id:int" 

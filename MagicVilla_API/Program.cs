@@ -57,6 +57,8 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 
+builder.Services.AddResponseCaching();
+
 //autenticacion
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 builder.Services.AddAuthentication(x =>

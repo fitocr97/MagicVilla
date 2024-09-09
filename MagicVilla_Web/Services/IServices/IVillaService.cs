@@ -7,7 +7,7 @@ namespace MagicVilla_Web.Services.IServices
     {
         Task<T> GetAll<T>(string Token );
         Task<T> GetOne<T>(int id, string Token);
-
+        Task<T> GetAllPaginado<T>(string token, int pageNumber = 1, int pageSize = 4);
         Task<T> Create<T>(VillaCreateDto dto, string Token);
         Task<T> Update<T>(VillaUpdateDto dto, string Token);
         Task<T> Delete<T>(int id, string Token);

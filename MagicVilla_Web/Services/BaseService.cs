@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 
 namespace MagicVilla_Web.Services
 {
@@ -30,7 +31,23 @@ namespace MagicVilla_Web.Services
                 HttpRequestMessage message = new HttpRequestMessage();  //luego ell llamado del mesanje por medio del httpsRequest
                                                                         //este necesita varios factores
                 message.Headers.Add("Accept", "application/json"); //
-                message.RequestUri = new Uri(apiRequest.Url); //URL por la cual nos vamos a conectar
+
+                //se agrego para el pagination
+                if (apiRequest.Parametros == null)
+                {
+                    message.RequestUri = new Uri(apiRequest.Url); //normal si viene vacio
+                }
+                else
+                {
+                    var builder = new UriBuilder(apiRequest.Url);
+                    var query = HttpUtility.ParseQueryString(builder.Query);
+                    query["PageNumber"] = apiRequest.Parametros.PageNumber.ToString(); //armar la url
+                    query["PageSize"] = apiRequest.Parametros.PageSize.ToString(); //armar la url
+                    builder.Query = query.ToString();
+                    string url = builder.ToString();     //   api/Villa/VillaPaginado/PageNumber=1&PageSize=4
+                    message.RequestUri = new Uri(url);
+                }
+
 
                 if (apiRequest.Datos != null) //si es diferente de null se refiera post o put envian datos
                 {
