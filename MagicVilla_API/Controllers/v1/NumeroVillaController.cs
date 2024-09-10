@@ -36,7 +36,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //getall
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetNumeroVillas() //RETORNA TIPO APIRESPONSE
         {
@@ -59,7 +59,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //getOne
         [HttpGet("{id:int}", Name = "GetNumeroVilla")] //"id:int"
-        [Authorize]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,7 +99,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //create
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -156,7 +156,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //Delete
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteNumeroVilla(int id) //aqui no se puede poner APIResponse, interface no puede llevar un tipo
@@ -197,7 +197,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //put
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdateNumeroVilla(int id, [FromBody] NumeroVillaUpdateDto updateDto) //recibe todo el objeto

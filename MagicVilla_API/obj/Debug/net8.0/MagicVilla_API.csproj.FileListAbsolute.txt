@@ -285,3 +285,9 @@ C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debu
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Rodolfo Mora\Documents\Cursos\Dotnet\MagicVilla\MagicVilla_API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll

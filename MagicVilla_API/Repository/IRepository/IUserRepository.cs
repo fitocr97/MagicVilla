@@ -10,6 +10,6 @@ namespace MagicVilla_API.Repository.IRepository
         //metodo login
         Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);
         //metodo retorna el modelo tipo user el user que se registra
-        Task<User> Register(RegistroRequestDto registroRequestDto);
+        Task<UserDto> Register(RegistroRequestDto registroRequestDto);
     }
 }

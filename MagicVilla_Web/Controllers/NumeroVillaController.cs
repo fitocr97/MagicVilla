@@ -4,6 +4,7 @@ using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Models.ViewModels;
 using MagicVilla_Web.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -22,6 +23,7 @@ namespace MagicVilla_Web.Controllers
             _numeroVillaService = numeroVillaService;
             _villaService = villaService;
         }
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             List<NumeroVillaDto> numeroVillaList = new();
@@ -36,6 +38,7 @@ namespace MagicVilla_Web.Controllers
             return View(numeroVillaList); //enviamos la lista a la vista
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateNumeroVilla()
         {
             NumeroVillaViewModel numeroVillaM = new();
@@ -92,7 +95,7 @@ namespace MagicVilla_Web.Controllers
             return View(modelo);
         }
 
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateNumeroVilla(int villaNo) //id numero villa
         {
             NumeroVillaUpdateViewModel numeroVillaVM = new(); //inicalizamos el viewmodel "instanciado"
@@ -161,6 +164,7 @@ namespace MagicVilla_Web.Controllers
         }
 
         //similar al update
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteNumeroVilla(int villaNo)
         {
             NumeroVillaDeleteViewModel numeroVillaVM = new();

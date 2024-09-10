@@ -36,7 +36,7 @@ namespace MagicVilla_API.Controllers.v1
         //getall
         [HttpGet]
         [ResponseCache(Duration = 30)]
-        [Authorize]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetVillas() //RETORNA TIPO APIRESPONSE antes ienumerable
         {
@@ -82,7 +82,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //getOne
         [HttpGet("{id:int}", Name = "GetVilla")] //"id:int" 
-        [Authorize]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -122,7 +122,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //create
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -171,7 +171,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //Delete¿
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteVilla(int id) //aqui no se puede poner APIResponse, interface no puede llevar un tipo
@@ -211,7 +211,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //put
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDto updateDto) //recibe todo el objeto
@@ -245,7 +245,7 @@ namespace MagicVilla_API.Controllers.v1
 
         //patch
         [HttpPatch("{id:int}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDto> patchDto)

@@ -35,15 +35,15 @@ namespace MagicVilla_Web.Controllers
                 //convertir el contenido que devuelve el api
                 LoginResponseDto loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(response.Result));
 
-                //var handler = new JwtSecurityTokenHandler();
-                //var jwt = handler.ReadJwtToken(loginResponse.Token);
+                var handler = new JwtSecurityTokenHandler(); //leer el token
+                var jwt = handler.ReadJwtToken(loginResponse.Token); //devuelve el token
 
                 //Claims tener guardado el username y rol 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.Name, loginResponse.User.UserName)); //agregar claim
-                identity.AddClaim(new Claim(ClaimTypes.Role, loginResponse.User.Rol));
-               // identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value)); //agregar claim
-               // identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(c => c.Type == "role").Value));
+
+                //ya lo trae el token
+                identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value)); 
+                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(c => c.Type == "role").Value));
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                 

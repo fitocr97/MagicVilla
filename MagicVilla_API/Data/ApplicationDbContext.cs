@@ -1,21 +1,23 @@
 ﻿using MagicVilla_API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla_API.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<UserApp>
     {
         //con esto queda lista la configuracion de EF y DbContext
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) //base dbContext, va indicar el padre y le enviamos toda la config 
         {
             
         }
-
+        public DbSet<UserApp> UsersApp { get; set; }
         public DbSet<Villa> Villas {  get; set; } //modelo creado en bd
         public DbSet<User> Users {  get; set; }
         public DbSet<NumeroVilla> NumeroVillas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);//esto para que todo se relacione con identity
             modelBuilder.Entity<Villa>().HasData(
                 new Villa()
                 {
